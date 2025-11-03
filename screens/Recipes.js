@@ -1,6 +1,9 @@
-import { useState } from "react";
-import { TouchableOpacity, View, Text } from "react-native";
+import { useState, useEffect } from "react";
+import { TouchableOpacity, View, Text, FlatList, ScrollView } from "react-native";
 import { StyleSheet } from "react-native";
+
+import AddRecipes from '../components/AddRecipes'
+import { getRecipes } from "../services/Recipes.service";
 
 const dados_fake = [
     {
@@ -24,32 +27,82 @@ const dados_fake = [
 
 export default function Recipes({navigation}) {
     const [view, setView] = useState('list')
+    const [recipes, setRecipes] = useState([])
+
+    const loadRecipes = async () => {
+        const data = await getRecipes()
+        setRecipes(data);
+    }
+
+    useEffect(() => {
+        loadRecipes()
+    }, [])
+
+    const renderItem = ( { item } ) => {
+        console.log(item)
+        return (
+            <View style={style.card}>
+                <Text style={style.textButton}>
+                    Titulo
+                </Text>
+                <Text style={style.cardItem}>
+                    {item.nome}
+                </Text>
+                <Text style={style.textButton}>
+                    Ingredientes
+                </Text>
+                <Text style={style.cardItem}>
+                    {item.ingredientes}
+                </Text>
+                <Text style={style.textButton}>
+                    Modo de Preparo
+                </Text>
+                <Text style={style.cardItem}>
+                    {item.modo_preparo}
+                </Text>
+
+                <TouchableOpacity style={style.button} onPress={() => navigation.goBack()}>
+                    <Text style={style.textButton}>Editar</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={style.button} onPress={() => navigation.goBack()}>
+                    <Text style={style.textButton}>Deletar</Text>
+                </TouchableOpacity>
+
+            </View>
+        )
+
+    }
 
     return (
-        <View>
+        <ScrollView>
             <Text style={style.title}>
                 Receitas
             </Text>
-
-            <TouchableOpacity style={style.button} onPress={() => navigation.goBack()}>
-                <Text style={style.textButton}>Voltar</Text>
-            </TouchableOpacity>
-
 
             {(view === 'list') ? (
                 <View>
                     <TouchableOpacity style={style.button} onPress={() => setView('form')}>
                         <Text style={style.textButton}>Adicionar Receita</Text>
                     </TouchableOpacity>
+
+                    <FlatList
+                        data={recipes}
+                        keyExtractor={item => item.id.toString()}
+                        renderItem={renderItem}
+                    />
+
                 </View>
             ) : (
                 <View>
                     <TouchableOpacity style={style.button} onPress={() => setView('list')}>
                         <Text style={style.textButton}>VER Receitas</Text>
                     </TouchableOpacity>
+
+                    <AddRecipes></AddRecipes>
                 </View>
             )}
-        </View>
+        </ScrollView>
     )
 }
 
@@ -77,5 +130,15 @@ const style = StyleSheet.create({
     textButton: {
         color: '#fff',
         fontWeight: 'bold'
+    },
+    card: {
+        backgroundColor: '#1a2b4a',
+        padding: 30,
+        borderRadius: 10,
+        marginBottom: 20
+    },
+    cardItem: {
+        color: '#fff',
+        marginBottom: 10
     }
 })
