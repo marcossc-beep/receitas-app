@@ -5,26 +5,6 @@ import { StyleSheet } from "react-native";
 import AddRecipes from '../components/AddRecipes'
 import { getRecipes } from "../services/Recipes.service";
 
-const dados_fake = [
-    {
-        id: 1,
-        nome: 'Bolo de cenoura', 
-        modo_preparo: 'Mistura', 
-        ingredientes: 'Cenoura, ovo e trigo',
-        usuario_id: 1,
-        categoria_id: 1
-    },
-    {
-        id: 2,
-        nome: 'Bolo de Milho', 
-        modo_preparo: 'Mistura', 
-        ingredientes: 'Milho, ovo e trigo',
-        usuario_id: 1,
-        categoria_id: 1
-    },
-]
-
-
 export default function Recipes({navigation}) {
     const [view, setView] = useState('list')
     const [recipes, setRecipes] = useState([])
