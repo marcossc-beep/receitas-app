@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { TouchableOpacity, View, Text, FlatList, ScrollView } from "react-native";
 import { StyleSheet } from "react-native";
 
-import AddRecipes from '../components/AddRecipes'
+import AddRecipes from '../components/AddRecipe'
 import { getRecipes } from "../services/Recipes.service";
 
 export default function Recipes({navigation}) {
