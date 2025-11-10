@@ -5,7 +5,7 @@ export default function Home({navigation}) {
     return (
         <View style={style.container}>
             <Text style={style.title}>
-                Bem vindo!
+                Bem vindo! Ao Applicativo de Receitas
             </Text>
 
             <TouchableOpacity 
