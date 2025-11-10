@@ -30,3 +30,22 @@ export async function createCategory(category) {
 
     }
 }
+
+export async function updateCategory(id, category) {
+    const request = `${url}/categorias/${id}`
+
+    try {
+        const response = await fetch(request, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(category)
+        })
+
+        const data = await response.json()
+        return data
+    } catch (e) {
+
+    }
+}

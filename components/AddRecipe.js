@@ -3,9 +3,9 @@ import { TouchableOpacity, View, Text, StyleSheet } from "react-native";
 import { Picker, TextInput } from "react-native";
 import { getUsers } from "../services/Users.service";
 import { getCategories } from "../services/Category.service";
-import { createRecipe } from "../services/Recipes.service";
+import { createRecipe, updateRecipe } from "../services/Recipes.service";
 
-export default function AddRecipes() {
+export default function AddRecipes({ recipeToEdit }) {
     const [nome, setNome] = useState('')
     const [ingredientes, setIngredientes] = useState('')
     const [modoPreparo, setModoPreparo] = useState('')
@@ -16,7 +16,20 @@ export default function AddRecipes() {
     const [userId, setUserId] = useState('')
     const [categoryId, setCategoryId] = useState('')
 
+    const [recipeId, setRecipeId] = useState()
+
     useEffect(() => {
+        console.log('recipeToEdit', recipeToEdit);
+        setNome(recipeToEdit.nome)
+        setIngredientes(recipeToEdit.ingredientes)
+        setModoPreparo(recipeToEdit.modo_preparo)
+        setPorcoes(recipeToEdit.porcoes)
+        setTempoPreparoMinutos(recipeToEdit.tempo_preparo_minutos)
+        setCategoryId(recipeToEdit.categoria_id)
+        setUserId(recipeToEdit.usuario_id)
+
+        setRecipeId(recipeToEdit.id)
+
         loadUsers()
         loadCategories()
     }, [])
@@ -44,10 +57,15 @@ export default function AddRecipes() {
             categoria_id: parseInt(categoryId)
         }
 
-        console.log(response);
         try {
             clearForm()
-            const response = await createRecipe(obj)
+
+            if (recipeId) {
+                const response = await updateRecipe(recipeId, obj)
+            } else {
+                const response = await createRecipe(obj)
+            }
+                
         } catch {
             
         }
