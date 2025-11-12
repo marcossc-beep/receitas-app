@@ -29,6 +29,8 @@ export default function AddRecipes({ recipeToEdit }) {
             setCategoryId(recipeToEdit.categoria_id)
             setUserId(recipeToEdit.usuario_id)
             setRecipeId(recipeToEdit.id)
+        } else {
+            clearForm
         }
 
         loadUsers()

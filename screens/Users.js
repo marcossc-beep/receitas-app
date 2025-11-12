@@ -2,10 +2,12 @@ import { useState, useEffect } from "react";
 import { TouchableOpacity, View, Text, FlatList, ScrollView } from "react-native";
 import { StyleSheet } from "react-native";
 import { getUsers } from "../services/Users.service";
+import AddUser from "../components/AddUser";
 
 export default function Users({navigation}) {
     const [view, setView] = useState('list')
     const [users, setUsers] = useState([])
+    const [selectedUser, setSelectedUser] = useState()
 
     const loadUsers = async () => {
         const data = await getUsers()
@@ -41,7 +43,10 @@ export default function Users({navigation}) {
                     {item.telefone}
                 </Text>
 
-                <TouchableOpacity style={style.button} onPress={() => navigation.goBack()}>
+                <TouchableOpacity style={style.button} onPress={() => {
+                    setView('form')
+                    setSelectedUser(item)
+                }}>
                     <Text style={style.textButton}>Editar</Text>
                 </TouchableOpacity>
 
@@ -72,11 +77,15 @@ export default function Users({navigation}) {
                 </View>
             ) : (
                 <View>
-                    <TouchableOpacity style={style.button} onPress={() => setView('list')}>
-                        <Text style={style.textButton}>VER Receitas</Text>
+                    <TouchableOpacity style={style.button} onPress={() => {
+                        setView('list')
+                        loadUsers()
+                        setSelectedUser(null)
+                    }}>
+                        <Text style={style.textButton}>Ver Usuarios</Text>
                     </TouchableOpacity>
 
-                    <AddRecipes></AddRecipes>
+                    <AddUser userToEdit={selectedUser}></AddUser>
                 </View>
             )}
         </ScrollView>

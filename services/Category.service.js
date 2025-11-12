@@ -49,3 +49,16 @@ export async function updateCategory(id, category) {
 
     }
 }
+
+export async function deleteCategory(id) {
+    const request = `${url}/categorias/${id}`
+    try {
+        const response = await fetch(request, {
+            method: 'DELETE'
+        })
+        const data = await response.json()
+        return data
+    } catch (e) {
+
+    }
+}
