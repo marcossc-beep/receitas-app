@@ -20,15 +20,16 @@ export default function AddRecipes({ recipeToEdit }) {
 
     useEffect(() => {
         console.log('recipeToEdit', recipeToEdit);
-        setNome(recipeToEdit.nome)
-        setIngredientes(recipeToEdit.ingredientes)
-        setModoPreparo(recipeToEdit.modo_preparo)
-        setPorcoes(recipeToEdit.porcoes)
-        setTempoPreparoMinutos(recipeToEdit.tempo_preparo_minutos)
-        setCategoryId(recipeToEdit.categoria_id)
-        setUserId(recipeToEdit.usuario_id)
-
-        setRecipeId(recipeToEdit.id)
+        if (recipeToEdit) {
+            setNome(recipeToEdit.nome)
+            setIngredientes(recipeToEdit.ingredientes)
+            setModoPreparo(recipeToEdit.modo_preparo)
+            setPorcoes(recipeToEdit.porcoes)
+            setTempoPreparoMinutos(recipeToEdit.tempo_preparo_minutos)
+            setCategoryId(recipeToEdit.categoria_id)
+            setUserId(recipeToEdit.usuario_id)
+            setRecipeId(recipeToEdit.id)
+        }
 
         loadUsers()
         loadCategories()
